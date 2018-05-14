@@ -25,20 +25,19 @@ public class MainActivity extends AppCompatActivity {
         LinearLayout ll = new LinearLayout(this);
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setId(12345);
-
-        // Add text
-
-        TextView tv = new TextView(this);
-        tv.setText("my text");
-        ll.addView(tv);
-
-        TextView tv2 = new TextView(this);
-        tv2.setText("my text2");
-        ll.addView(tv2);
-        // Add the LinearLayout element to the ScrollView
-        getFragmentManager().beginTransaction().add(ll.getId(), ExampleFragment.newInstance("I am frag 1"), "someTag1").commit();
-        getFragmentManager().beginTransaction().add(ll.getId(), ExampleFragment.newInstance("I am frag 2"), "someTag2").commit();
         sv.addView(ll);
+
+
+
+        // Add the LinearLayout element to the ScrollView
+        getFragmentManager().beginTransaction().add(ll.getId(), ExampleFragment.newInstance("I am frag 1",true), "someTag1").commit();
+        getFragmentManager().beginTransaction().add(ll.getId(), ExampleFragment.newInstance("I am frag 2", false), "someTag2").commit();
+
+
+
+
+        // Add the LinearLayout element to the ScrollView
+        getFragmentManager().beginTransaction().add(ll.getId(), ExampleFragment.newInstance("I am frag 1",true), "someTag1").commit();
 
         // Display the view
         //setContentView(v);
