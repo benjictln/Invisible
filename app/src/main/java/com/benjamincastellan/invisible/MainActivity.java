@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -15,18 +16,24 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        //View v = inflater.inflate(R.layout.profile_list, null);
 
         // Find the ScrollView
         ScrollView sv = (ScrollView) findViewById(R.id.scrollView1);
 
         // Create a LinearLayout element
-        LinearLayout ll = new LinearLayout(this);
+        LinearLayout ll = (LinearLayout) findViewById(R.id.container_layout);
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setId(12345);
-        sv.addView(ll);
 
+
+        Button mButton = (Button) findViewById(R.id.btnLaunch);
+        mButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                BackgroundCheck backgroundCheck=new BackgroundCheck(MainActivity.this);
+                backgroundCheck.execute();
+            }
+        });
 
 
         // Add the LinearLayout element to the ScrollView
@@ -43,3 +50,4 @@ public class MainActivity extends AppCompatActivity {
         //setContentView(v);
     }
 }
+
