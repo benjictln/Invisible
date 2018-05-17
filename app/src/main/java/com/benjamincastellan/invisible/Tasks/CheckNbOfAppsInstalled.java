@@ -19,7 +19,8 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
     private Activity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
-    private String[] mostFamousApps = {"Facebook", "WhatsApp", "Instagram", "Skype", "Subway Surfers"};
+    // most downloaded according to https://en.wikipedia.org/wiki/List_of_most_downloaded_Google_Play_applications
+    private String[] mostFamousApps = {"Facebook", "WhatsApp", "Instagram", "Skype", "Subway Surfers", "Clean Master", "Dropbox", "Candy Crush Saga", "Viber Messenger", "Twitter", "LINE", "HP Print Service Plugin", "Flipboard", "Samsung Print Service Plugin"};
 
     public CheckNbOfAppsInstalled(MainActivity activity, LinearLayout ll) {
         this.activity = activity;
