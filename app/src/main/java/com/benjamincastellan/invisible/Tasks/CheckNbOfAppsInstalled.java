@@ -1,12 +1,16 @@
 package com.benjamincastellan.invisible.Tasks;
 
 import android.app.Activity;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
+
+import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
@@ -15,6 +19,7 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
     private Activity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
+    private String[] mostFamousApps = {"Facebook", "WhatsApp", "Instagram"};
 
     public CheckNbOfAppsInstalled(MainActivity activity, LinearLayout ll) {
         this.activity = activity;
@@ -38,6 +43,15 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
+        PackageManager packageManager = activity.getPackageManager();
+        List<ApplicationInfo> installedApps = activity.getPackageManager().getInstalledApplications(0);
+        int numberOfinstalledApps = installedApps.size();
+        Log.d(TAG, "doInBackground: Nb of apps" + String.valueOf(numberOfinstalledApps ));
+        //  we try to see if any of the installed apps match the most installed app on Android
+        for (int i = 0; i<numberOfinstalledApps; i++) {
+            String appName = packageManager.getApplicationLabel(installedApps.get(i)).toString();
+            Log.d(TAG, String.valueOf(appName));
+        }
         publishProgress(0);
         return null;
     }
