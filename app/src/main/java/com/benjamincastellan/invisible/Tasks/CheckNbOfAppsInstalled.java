@@ -19,7 +19,7 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
     private Activity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
-    private String[] mostFamousApps = {"Facebook", "WhatsApp", "Instagram"};
+    private String[] mostFamousApps = {"Facebook", "WhatsApp", "Instagram", "Skype", "Subway Surfers"};
 
     public CheckNbOfAppsInstalled(MainActivity activity, LinearLayout ll) {
         this.activity = activity;
@@ -44,13 +44,24 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         PackageManager packageManager = activity.getPackageManager();
+        // we retrieve the apps installed on the phone
         List<ApplicationInfo> installedApps = activity.getPackageManager().getInstalledApplications(0);
-        int numberOfinstalledApps = installedApps.size();
-        Log.d(TAG, "doInBackground: Nb of apps" + String.valueOf(numberOfinstalledApps ));
+        int numberOfAppsInstalled = installedApps.size();
+        Log.d(TAG, "doInBackground: Nb of apps" + String.valueOf(numberOfAppsInstalled ));
+
         //  we try to see if any of the installed apps match the most installed app on Android
-        for (int i = 0; i<numberOfinstalledApps; i++) {
+        for (int i = 0; i<numberOfAppsInstalled; i++) {
             String appName = packageManager.getApplicationLabel(installedApps.get(i)).toString();
             Log.d(TAG, String.valueOf(appName));
+            int nbTestedOn = 0;
+            for (int j = 0; j < mostFamousApps.length; j++){
+                if (appName.equals(mostFamousApps[j])) {
+                    Log.d(TAG, "doInBackground: WE FOUND A MATCH and it is " + appName);
+                }
+                else if (++nbTestedOn == mostFamousApps.length){
+                    Log.d(TAG, "doInBackground: NO MATCH FOR THIS APP " + appName);
+                }
+            }
         }
         publishProgress(0);
         return null;
