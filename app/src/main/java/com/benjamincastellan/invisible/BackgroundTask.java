@@ -1,27 +1,32 @@
 package com.benjamincastellan.invisible;
 
+import android.app.Activity;
 import android.content.Context;
 import android.os.AsyncTask;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import static android.content.ContentValues.TAG;
 
-public class BackgroundCheck extends AsyncTask<Void, Integer, Void>
+public class BackgroundTask extends AsyncTask<Void, Integer, Void>
 {
 
-    private Context context;
+    private Activity activity;
     private int nb_operation;
+    private LinearLayout ll;
 
-    public BackgroundCheck(Context context) {
-        this.context = context;
+    public BackgroundTask(MainActivity activity, LinearLayout ll) {
+        this.activity = activity;
         nb_operation = 0;
+        this.ll = ll;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Toast.makeText(context.getApplicationContext(), "Starting operation " + String.valueOf(++nb_operation), Toast.LENGTH_LONG).show();
+        Toast.makeText(activity.getApplicationContext(), "Starting operation " + String.valueOf(++nb_operation), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -29,6 +34,10 @@ public class BackgroundCheck extends AsyncTask<Void, Integer, Void>
         super.onProgressUpdate(values);
         // Mise à jour de la ProgressBar
         Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
+
+
+        activity.getFragmentManager().beginTransaction().add(ll.getId(), ExampleFragment.newInstance("I am frag 1",true), "someTag1").commit();
+
     }
 
     @Override
@@ -49,6 +58,6 @@ public class BackgroundCheck extends AsyncTask<Void, Integer, Void>
 
     @Override
     protected void onPostExecute(Void result) {
-        Toast.makeText(context.getApplicationContext(), "Operation finished", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity.getApplicationContext(), "Operation finished", Toast.LENGTH_LONG).show();
     }
 }
