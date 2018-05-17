@@ -16,7 +16,7 @@ public class LaunchTasks {
                 checkInternetHistory.execute();
                 break;
             case 1:
-                CheckNbOfAppsInstalled checkNbOfAppsInstalled = new CheckNbOfAppsInstalled();
+                CheckNbOfAppsInstalled checkNbOfAppsInstalled = new CheckNbOfAppsInstalled(activity, ll);
                 checkNbOfAppsInstalled.execute();
                 break;
             default:

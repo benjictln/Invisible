@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
+import com.benjamincastellan.invisible.R;
 
 import static android.content.ContentValues.TAG;
 
@@ -33,7 +34,6 @@ public class CheckInternetHistory extends AsyncTask<Void,Integer,Void> {
         // Mise à jour de la ProgressBar
         Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
 
-        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, "someTag1").commit();
 
     }
 
@@ -45,6 +45,13 @@ public class CheckInternetHistory extends AsyncTask<Void,Integer,Void> {
 
     @Override
     protected void onPostExecute(Void result) {
+        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, "someTag2").commit();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

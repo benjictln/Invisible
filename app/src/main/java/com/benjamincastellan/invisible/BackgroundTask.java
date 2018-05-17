@@ -16,7 +16,7 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
     private MainActivity activity;
     private int nb_operation_done;
     private LinearLayout ll;
-    private final int nb_tasks_available = 2;
+    private final int nb_tasks_available = 5;
     private LaunchTasks launchTasks;
 
     public BackgroundTask(MainActivity activity, LinearLayout ll) {
@@ -36,8 +36,7 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
     protected void onProgressUpdate(Integer... values){
         super.onProgressUpdate(values);
         // Mise à jour de la ProgressBar
-        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
-
+        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values[0]));
     }
 
     @Override
@@ -45,13 +44,7 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
 
         for (nb_operation_done=0;nb_operation_done<nb_tasks_available;nb_operation_done++)
         {
-            try {
-                Thread.sleep(1000);
-                // Launch the ith task
-                launchTasks.execute(nb_operation_done, activity, ll);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            launchTasks.execute(nb_operation_done, activity, ll);
             publishProgress(nb_operation_done);
         }
         return null;
