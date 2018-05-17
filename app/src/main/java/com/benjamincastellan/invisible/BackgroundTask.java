@@ -13,20 +13,23 @@ import static android.content.ContentValues.TAG;
 public class BackgroundTask extends AsyncTask<Void, Integer, Void>
 {
 
-    private Activity activity;
-    private int nb_operation;
+    private MainActivity activity;
+    private int nb_operation_done;
     private LinearLayout ll;
+    private final int nb_tasks_available = 2;
+    private LaunchTasks launchTasks;
 
     public BackgroundTask(MainActivity activity, LinearLayout ll) {
         this.activity = activity;
-        nb_operation = 0;
+        nb_operation_done = 0;
         this.ll = ll;
+        launchTasks = new LaunchTasks();
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Toast.makeText(activity.getApplicationContext(), "Starting operation " + String.valueOf(++nb_operation), Toast.LENGTH_LONG).show();
+        Toast.makeText(activity.getApplicationContext(), "Starting operation " + String.valueOf(++nb_operation_done), Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -35,23 +38,21 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
         // Mise à jour de la ProgressBar
         Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
 
-
-        activity.getFragmentManager().beginTransaction().add(ll.getId(), ExampleFragment.newInstance("I am frag 1",true), "someTag1").commit();
-
     }
 
     @Override
     protected Void doInBackground(Void... arg0) {
 
-        int progress;
-        for (progress=0;progress<=10;progress++)
+        for (nb_operation_done=0;nb_operation_done<nb_tasks_available;nb_operation_done++)
         {
             try {
                 Thread.sleep(1000);
+                // Launch the ith task
+                launchTasks.execute(nb_operation_done, activity, ll);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            publishProgress(progress);
+            publishProgress(nb_operation_done);
         }
         return null;
     }

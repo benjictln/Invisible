@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
+                ll.removeAllViews(); // to remove the Start button
                 BackgroundTask backgroundCheck=new BackgroundTask(MainActivity.this, ll);
                 backgroundCheck.execute();
             }
