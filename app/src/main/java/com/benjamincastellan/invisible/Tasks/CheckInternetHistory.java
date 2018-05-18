@@ -45,6 +45,7 @@ public class CheckInternetHistory extends AsyncTask<Void,Integer,Void> {
 
     @Override
     protected void onPostExecute(Void result) {
+        exampleFragment.setGood(true);
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, "someTag2").commit();
         try {
             Thread.sleep(1000);

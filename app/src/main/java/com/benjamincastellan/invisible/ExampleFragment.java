@@ -14,6 +14,8 @@ import android.widget.TextView;
  */
 public class ExampleFragment extends Fragment {
 
+    private boolean good = false;
+
     public static ExampleFragment newInstance(String text,Boolean bool) {
 
         ExampleFragment f = new ExampleFragment();
@@ -25,13 +27,20 @@ public class ExampleFragment extends Fragment {
         return f;
     }
 
+    public void addDetails(String details) {
+        // TODO: 18/05/2018 add details to the view
+    }
+
+    public void setGood(boolean good) {
+        this.good = good;
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View v =  inflater.inflate(R.layout.sample_element_test, container, false);
 
         ((TextView) v.findViewById(R.id.text_element)).setText(getArguments().getString("text"));
-        if (getArguments().getBoolean("good") ) {
+        if (good) {
             ((ImageView) v.findViewById(R.id.image_element)).setImageDrawable(getResources().getDrawable(R.drawable.good));
         }else{
             ((ImageView) v.findViewById(R.id.image_element)).setImageDrawable(getResources().getDrawable(R.drawable.bad));
