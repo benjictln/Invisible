@@ -68,8 +68,10 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
         }
         if (nbOfMatches == 0){
             // it is bad, probably not a real phone
+            exampleFragment.setGood(false);
         } else if (nbOfMatches == 1) {
             // it is suspicious
+            exampleFragment.setGood(false);
         } else {
             // it is probably a legit phone
             exampleFragment.setGood(true);
