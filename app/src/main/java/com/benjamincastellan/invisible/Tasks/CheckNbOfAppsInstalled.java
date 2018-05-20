@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -19,6 +20,7 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
     private Activity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
+    private StringBuilder appMatched;
     // most downloaded according to https://en.wikipedia.org/wiki/List_of_most_downloaded_Google_Play_applications
     private String[] mostFamousApps = {"Facebook", "WhatsApp", "Instagram", "Skype", "Subway Surfers", "Clean Master", "Dropbox", "Candy Crush Saga", "Viber Messenger", "Twitter", "LINE", "HP Print Service Plugin", "Flipboard", "Samsung Print Service Plugin"};
 
@@ -26,6 +28,7 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
         this.activity = activity;
         this.ll = ll;
         exampleFragment = ExampleFragment.newInstance("Checking the apps installed", true);
+        appMatched = new StringBuilder();
     }
 
     @Override
@@ -76,6 +79,8 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
                 if (appName.equals(mostFamousApps[j])) {
                     Log.d(TAG, "doInBackground: WE FOUND A MATCH and it is " + appName);
                     nbOfMatches++;
+                    appMatched.append("\n - ");
+                    appMatched.append(appName);
                 }
                 else if (++nbTestedOn == mostFamousApps.length){
                     Log.d(TAG, "doInBackground: NO MATCH FOR THIS APP " + appName);
@@ -89,8 +94,10 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
             // it is probably a legit phone
             exampleFragment.setGood(true);
         }
-        String commentNbOfMatches = (nbOfMatches==0)? "(Suspicious)" : "";
-        exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android" + commentNbOfMatches);
+        // add comment if it is suspicious
+        String commentNbOfMatches = (nbOfMatches==0)? "(Suspicious)" : ":";
+
+        exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android" + commentNbOfMatches + appMatched.toString());
         publishProgress(0);
         return null;
     }
