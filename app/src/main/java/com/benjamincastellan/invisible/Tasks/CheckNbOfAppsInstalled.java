@@ -89,7 +89,8 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
             // it is probably a legit phone
             exampleFragment.setGood(true);
         }
-        exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android");
+        String commentNbOfMatches = (nbOfMatches==0)? "(Suspicious)" : "";
+        exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android" + commentNbOfMatches);
         publishProgress(0);
         return null;
     }
