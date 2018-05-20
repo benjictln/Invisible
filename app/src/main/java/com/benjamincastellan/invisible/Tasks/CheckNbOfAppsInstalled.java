@@ -49,7 +49,23 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
         List<ApplicationInfo> installedApps = activity.getPackageManager().getInstalledApplications(0);
         int numberOfAppsInstalled = installedApps.size();
         Log.d(TAG, "doInBackground: Nb of apps" + String.valueOf(numberOfAppsInstalled ));
-        exampleFragment.addDetails("The number of apps installed is " + String.valueOf(numberOfAppsInstalled));
+
+        String commentNbOfAppsInstalled;
+        if (numberOfAppsInstalled < 100) {
+            commentNbOfAppsInstalled = "It is very very low(suspicious)";
+        } else if (numberOfAppsInstalled < 120) {
+            commentNbOfAppsInstalled = "It is very low(suspicious)";
+        } else if (numberOfAppsInstalled < 200) {
+            commentNbOfAppsInstalled = "It is low(suspicious)";
+        } else if (numberOfAppsInstalled < 300) {
+            commentNbOfAppsInstalled = "It is regular";
+        } else if (numberOfAppsInstalled < 400) {
+            commentNbOfAppsInstalled = "It is high";
+        } else {
+            commentNbOfAppsInstalled = "It is very high";
+        }
+
+        exampleFragment.addDetails("The number of apps installed is " + String.valueOf(numberOfAppsInstalled) + "\n" + commentNbOfAppsInstalled);
         //  we try to see if any of the installed apps match the most installed app on Android
         int nbOfMatches = 0;
         for (int i = 0; i<numberOfAppsInstalled; i++) {
@@ -66,17 +82,14 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
                 }
             }
         }
-        if (nbOfMatches == 0){
+        if ((nbOfMatches == 0) || (nbOfMatches == 1 && numberOfAppsInstalled<200) || (nbOfMatches == 2 && numberOfAppsInstalled<150) || (numberOfAppsInstalled < 110)){
             // it is bad, probably not a real phone
-            exampleFragment.setGood(false);
-        } else if (nbOfMatches == 1) {
-            // it is suspicious
             exampleFragment.setGood(false);
         } else {
             // it is probably a legit phone
             exampleFragment.setGood(true);
         }
-        exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " applications that matched the most installed on Android");
+        exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android");
         publishProgress(0);
         return null;
     }
