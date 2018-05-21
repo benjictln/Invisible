@@ -10,6 +10,8 @@ import android.widget.LinearLayout;
 import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
 
+import java.text.DecimalFormat;
+
 
 public class StorageInformation extends AsyncTask<Void,Integer,Void> {
 
@@ -64,12 +66,13 @@ public class StorageInformation extends AsyncTask<Void,Integer,Void> {
 
     public String convertInAppropriateFormat(long value) {
         // convert in GigaBytes, KiloBytes or MegaBytes according to the most appropriate
+        DecimalFormat numberFormat = new DecimalFormat("#.00");
         if (value > Math.pow(2,30)) {
-            return (String.valueOf(value/(Math.pow(2,30))) + " Gb");
+            return (String.valueOf(numberFormat.format(value/(Math.pow(2,30)))) + " Gb");
         }
         if (value > Math.pow(2,20)) {
-            return (String.valueOf(value/(Math.pow(2,20))) + " Mb");
+            return (String.valueOf(numberFormat.format(value/(Math.pow(2,20)))) + " Mb");
         }
-        return (String.valueOf(value/(Math.pow(2,10))) + " Kb");
+        return (String.valueOf(numberFormat.format(value/(Math.pow(2,10)))) + " Kb");
     }
 }
