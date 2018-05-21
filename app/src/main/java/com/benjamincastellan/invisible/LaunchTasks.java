@@ -5,6 +5,7 @@ import android.widget.LinearLayout;
 
 import com.benjamincastellan.invisible.Tasks.CheckInternetHistory;
 import com.benjamincastellan.invisible.Tasks.CheckNbOfAppsInstalled;
+import com.benjamincastellan.invisible.Tasks.StorageInformation;
 
 
 public class LaunchTasks {
@@ -21,6 +22,10 @@ public class LaunchTasks {
             case 1:
                 CheckNbOfAppsInstalled checkNbOfAppsInstalled = new CheckNbOfAppsInstalled(activity, ll);
                 checkNbOfAppsInstalled.execute();
+                break;
+            case 2:
+                StorageInformation storageInformation = new StorageInformation(activity, ll);
+                storageInformation.execute();
                 break;
             default:
                 break;
