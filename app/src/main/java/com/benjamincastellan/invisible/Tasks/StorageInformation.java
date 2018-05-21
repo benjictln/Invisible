@@ -2,6 +2,8 @@ package com.benjamincastellan.invisible.Tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 import android.widget.LinearLayout;
 
@@ -38,7 +40,10 @@ public class StorageInformation extends AsyncTask<Void,Integer,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        publishProgress(0);
+        StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+        long bytesAvailable = (long)stat.getBlockSize() *(long)stat.getBlockCount();
+        long megAvailable = bytesAvailable / 1048576;
+        Log.d(TAG,"Megs :"+megAvailable);
         return null;
     }
 
