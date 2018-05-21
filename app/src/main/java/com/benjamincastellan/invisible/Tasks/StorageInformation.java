@@ -42,11 +42,17 @@ public class StorageInformation extends AsyncTask<Void,Integer,Void> {
     protected Void doInBackground(Void... voids) {
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
         long freeSpace = stat.getFreeBytes();
-        exampleFragment.addDetails("free space + " + convertInAppropriateFormat(freeSpace));
         long totalSpace = stat.getTotalBytes();
-        exampleFragment.addDetails("Total space + " + convertInAppropriateFormat(totalSpace));
-        long megAvailable = bytesAvailable / 1048576;
-        Log.d(TAG,"Megs :"+megAvailable);
+        long usedSpace = totalSpace - freeSpace;
+        exampleFragment.addDetails("Free space: " + convertInAppropriateFormat(freeSpace));
+        exampleFragment.addDetails("Used space: " + convertInAppropriateFormat(usedSpace));
+        exampleFragment.addDetails("Total space: " + convertInAppropriateFormat(totalSpace));
+
+        long oneGigaByte = (long) Math.pow(2,30);
+        if (usedSpace < 2*oneGigaByte || totalSpace < 3*oneGigaByte)
+            exampleFragment.setGood(false);
+        else
+            exampleFragment.setGood(true);
         return null;
     }
 
