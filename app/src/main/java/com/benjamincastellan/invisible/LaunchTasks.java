@@ -12,8 +12,11 @@ public class LaunchTasks {
     public void execute(int nb, MainActivity activity, LinearLayout ll){
         switch (nb) {
             case 0:
+                /*
+                // it is now not possible to access Chrome history from a third-party app
                 CheckInternetHistory checkInternetHistory = new CheckInternetHistory(activity, ll);
                 checkInternetHistory.execute();
+                */
                 break;
             case 1:
                 CheckNbOfAppsInstalled checkNbOfAppsInstalled = new CheckNbOfAppsInstalled(activity, ll);
