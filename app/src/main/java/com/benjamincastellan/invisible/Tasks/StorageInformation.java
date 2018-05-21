@@ -41,7 +41,10 @@ public class StorageInformation extends AsyncTask<Void,Integer,Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-        long bytesAvailable = (long)stat.getBlockSize() *(long)stat.getBlockCount();
+        long freeSpace = stat.getFreeBytes();
+        exampleFragment.addDetails("free space + " + convertInAppropriateFormat(freeSpace));
+        long totalSpace = stat.getTotalBytes();
+        exampleFragment.addDetails("Total space + " + convertInAppropriateFormat(totalSpace));
         long megAvailable = bytesAvailable / 1048576;
         Log.d(TAG,"Megs :"+megAvailable);
         return null;
@@ -52,4 +55,15 @@ public class StorageInformation extends AsyncTask<Void,Integer,Void> {
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
     }
 
+
+    public String convertInAppropriateFormat(long value) {
+        // convert in GigaBytes, KiloBytes or MegaBytes according to the most appropriate
+        if (value > Math.pow(2,30)) {
+            return (String.valueOf(value/(Math.pow(2,30))) + " Gb");
+        }
+        if (value > Math.pow(2,20)) {
+            return (String.valueOf(value/(Math.pow(2,20))) + " Mb");
+        }
+        return (String.valueOf(value/(Math.pow(2,10))) + " Kb");
+    }
 }
