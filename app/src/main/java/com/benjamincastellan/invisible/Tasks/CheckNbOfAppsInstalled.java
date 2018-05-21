@@ -21,6 +21,8 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
     private StringBuilder appMatched;
+    final String TAG = "Check the Nb of Apps installed"; // todo: replace it
+
     // most downloaded according to https://en.wikipedia.org/wiki/List_of_most_downloaded_Google_Play_applications
     private String[] mostFamousApps = {"Facebook", "WhatsApp", "Instagram", "Skype", "Subway Surfers", "Clean Master", "Dropbox", "Candy Crush Saga", "Viber Messenger", "Twitter", "LINE", "HP Print Service Plugin", "Flipboard", "Samsung Print Service Plugin"};
 
@@ -104,7 +106,7 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
 
     @Override
     protected void onPostExecute(Void result) {
-        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, "someTag1").commit();
+        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
