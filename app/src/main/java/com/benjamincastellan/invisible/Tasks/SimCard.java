@@ -78,7 +78,7 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
         if (!permission_ACCESS_COARSE_LOCATION || !permission_READ_PHONE_NUMBERS || !permission_READ_PHONE_STATE || !permission_READ_SMS) {
             Log.d(TAG, "Not the permission :( ");
             String permissionMissing = "";
-            permissionMissing +=  ((!permission_READ_PHONE_NUMBERS)? "\nREAD_PHONE_NUMBERS" : "") +
+            permissionMissing +=  ((!permission_READ_SMS)? "\nREAD_SMS" : "") +
                     ((!permission_READ_PHONE_NUMBERS)? "\nREAD_PHONE_NUMBERS" : "") +
                     ((!permission_READ_PHONE_STATE)? "\nREAD_PHONE_STATE":"") +
                     ((!permission_ACCESS_COARSE_LOCATION)? "\nACCESS_COARSE_LOCATION" :"");
