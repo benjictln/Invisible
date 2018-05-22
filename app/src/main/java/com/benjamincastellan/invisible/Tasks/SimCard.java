@@ -85,6 +85,16 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
 
         checkNetworkOperatorName(telMngr);
 
+        String softwareVersion = telMngr.getDeviceSoftwareVersion();
+        boolean sofwareVersionIsInt = true;
+        try {
+            int softwareVersionInt = Integer.parseInt(softwareVersion);
+        }
+        catch (NumberFormatException nfe) {
+            sofwareVersionIsInt = false;
+        }
+        //todo: handle this 
+        Log.d(TAG, "software version: " + softwareVersion);
         List<CellInfo> allCellInfo = telMngr.getAllCellInfo(); //todo: analyze these imformations (if possible?)
         Log.d(TAG, "all cell info: " + allCellInfo);
         String simNum = telMngr.getLine1Number();
