@@ -2,6 +2,7 @@ package com.benjamincastellan.invisible.Tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.LinearLayout;
 
@@ -38,7 +39,28 @@ public class SimCard extends AsyncTask<Void,Integer,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        publishProgress(0);
+        TelephonyManager telMgr = (TelephonyManager) activity.getApplicationContext().getSystemService(activity.getApplicationContext().TELEPHONY_SERVICE);
+        int simState = telMgr.getSimState();
+        switch (simState) {
+            case TelephonyManager.SIM_STATE_ABSENT:
+                Log.d(TAG, "SIM_STATE_ABSENT");
+                break;
+            case TelephonyManager.SIM_STATE_NETWORK_LOCKED:
+                Log.d(TAG, "SIM_STATE_NETWORK_LOCKED");
+                break;
+            case TelephonyManager.SIM_STATE_PIN_REQUIRED:
+                Log.d(TAG, "SIM_STATE_PIN_REQUIRED");
+                break;
+            case TelephonyManager.SIM_STATE_PUK_REQUIRED:
+                Log.d(TAG, "SIM_STATE_PUK_REQUIRED");
+                break;
+            case TelephonyManager.SIM_STATE_READY:
+                Log.d(TAG, "SIM_STATE_READY");
+                break;
+            case TelephonyManager.SIM_STATE_UNKNOWN:
+                Log.d(TAG, "SIM_STATE_UNKNOWN");
+                break;
+        }
         return null;
     }
 
