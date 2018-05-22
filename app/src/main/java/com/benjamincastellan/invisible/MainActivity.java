@@ -1,5 +1,7 @@
 package com.benjamincastellan.invisible;
 
+import android.Manifest;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -32,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
                 backgroundCheck.execute();
             }
         });
-
+        // ask for permissions
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION},
+                1);
     }
 }
 

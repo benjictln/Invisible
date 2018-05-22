@@ -69,10 +69,7 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
                 break;
         }
 
-        // ask for permissions
-        ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION},
-                1);
+
 
         if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED
                 || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED
