@@ -79,7 +79,12 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
                 && ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Not the permission :( ");
-
+            String permissionMissing = "";
+            permissionMissing += (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED)? "\nREAD_PHONE_NUMBERS" : "";
+            permissionMissing += (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED)? "\nREAD_PHONE_NUMBERS" : "";
+            permissionMissing += (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)? "\nREAD_PHONE_STATE":"";
+            permissionMissing += (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)? "\nACCESS_COARSE_LOCATION" :"";
+            exampleFragment.addDetails("Need the following permissions to achieve this task:"+permissionMissing);
             return null;  //todo: handle this case properly (no picture displayed ?)
         }
 
@@ -93,7 +98,7 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
         catch (NumberFormatException nfe) {
             sofwareVersionIsInt = false;
         }
-        //todo: handle this 
+        //todo: handle this
         Log.d(TAG, "software version: " + softwareVersion);
         List<CellInfo> allCellInfo = telMngr.getAllCellInfo(); //todo: analyze these imformations (if possible?)
         Log.d(TAG, "all cell info: " + allCellInfo);
