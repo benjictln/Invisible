@@ -84,7 +84,21 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
         }
 
         List<CellInfo> allCellInfo = telMngr.getAllCellInfo();
-
+        String networkOperatorName = telMngr.getNetworkOperatorName();
+        Log.d(TAG, "network operator: " + networkOperatorName);
+        String infoNetworkOperatorName;
+        if (networkOperatorName == null ||
+                networkOperatorName.equals("Android") ||
+                networkOperatorName.equals("")) {
+            // probably an emulator
+            // todo:what about tablets ?
+            exampleFragment.setGood(false);
+            infoNetworkOperatorName = "\nwhich is bad";
+        } else {
+            exampleFragment.setGood(true);
+            infoNetworkOperatorName = "\nwhich is probably good";
+        }
+        exampleFragment.addDetails("The name of the network operator is: " + networkOperatorName + infoNetworkOperatorName);
         Log.d(TAG, "all cell info: " + allCellInfo);
         String simNum = telMngr.getLine1Number();
         Log.d(TAG, "simNum: " + simNum);
