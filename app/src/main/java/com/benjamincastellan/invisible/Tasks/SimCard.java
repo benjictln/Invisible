@@ -5,12 +5,15 @@ import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
+import android.telephony.CellInfo;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
+
+import java.util.List;
 
 
 public class SimCard extends AsyncTask<Void, Integer, Void> {
@@ -43,10 +46,8 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
     @Override
     protected Void doInBackground(Void... voids) {
         TelephonyManager telMngr = (TelephonyManager) activity.getApplicationContext().getSystemService(activity.getApplicationContext().TELEPHONY_SERVICE);
-        int simState = telMngr.getSimState();
-        String operator = telMngr != null ? telMngr.getSimOperator() : null;  //310260 is emulator android
-        Log.d(TAG, "Operator: " + operator); //todo: get country from operator
 
+        int simState = telMngr.getSimState();
         switch (simState) {
             case TelephonyManager.SIM_STATE_ABSENT:
                 Log.d(TAG, "SIM_STATE_ABSENT");
@@ -68,27 +69,27 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
                 break;
         }
 
-
+        // ask for permissions
         ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS},
+                new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION},
                 1);
-        if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
 
+        if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Log.d(TAG, "Not the permission :( ");
 
             return null;  //todo: handle this case properly (no picture displayed ?)
         }
 
+        List<CellInfo> allCellInfo = telMngr.getAllCellInfo();
+
+        Log.d(TAG, "all cell info: " + allCellInfo);
         String simNum = telMngr.getLine1Number();
         Log.d(TAG, "simNum: " + simNum);
 
+        //todo: analyze these imformations (if possible)
 
         return null;
     }
