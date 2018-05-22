@@ -1,6 +1,7 @@
 package com.benjamincastellan.invisible.Tasks;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
@@ -45,9 +46,9 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        TelephonyManager telMngr = (TelephonyManager) activity.getApplicationContext().getSystemService(activity.getApplicationContext().TELEPHONY_SERVICE);
+        TelephonyManager telephonyManager = (TelephonyManager) activity.getApplicationContext().getSystemService(activity.getApplicationContext().TELEPHONY_SERVICE);
 
-        int simState = telMngr.getSimState();
+        int simState = telephonyManager.getSimState();
         switch (simState) {
             case TelephonyManager.SIM_STATE_ABSENT:
                 Log.d(TAG, "SIM_STATE_ABSENT");
@@ -69,41 +70,38 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
                 break;
         }
 
+        Boolean permission_READ_SMS = (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED);
+        Boolean permission_READ_PHONE_NUMBERS = (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED);
+        Boolean permission_READ_PHONE_STATE = (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
+        Boolean permission_ACCESS_COARSE_LOCATION = (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
 
-
-        if (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (!permission_ACCESS_COARSE_LOCATION || !permission_READ_PHONE_NUMBERS || !permission_READ_PHONE_STATE || !permission_READ_SMS) {
             Log.d(TAG, "Not the permission :( ");
             String permissionMissing = "";
-            permissionMissing += (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED)? "\nREAD_PHONE_NUMBERS" : "";
-            permissionMissing += (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_NUMBERS) != PackageManager.PERMISSION_GRANTED)? "\nREAD_PHONE_NUMBERS" : "";
-            permissionMissing += (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)? "\nREAD_PHONE_STATE":"";
-            permissionMissing += (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)? "\nACCESS_COARSE_LOCATION" :"";
+            permissionMissing +=  ((!permission_READ_PHONE_NUMBERS)? "\nREAD_PHONE_NUMBERS" : "") +
+                    ((!permission_READ_PHONE_NUMBERS)? "\nREAD_PHONE_NUMBERS" : "") +
+                    ((!permission_READ_PHONE_STATE)? "\nREAD_PHONE_STATE":"") +
+                    ((!permission_ACCESS_COARSE_LOCATION)? "\nACCESS_COARSE_LOCATION" :"");
             exampleFragment.addDetails("Need the following permissions to achieve this task:"+permissionMissing);
             exampleFragment.setUnknown();
-            return null;  //todo: handle this case properly (no picture displayed ?)
         }
 
-        checkNetworkOperatorName(telMngr);
+        checkNetworkOperatorName(telephonyManager);
 
-        String softwareVersion = telMngr.getDeviceSoftwareVersion(); // need READ_PHONE_STATE
-        boolean sofwareVersionIsInt = true;
-        try {
-            int softwareVersionInt = Integer.parseInt(softwareVersion);
+        if (permission_READ_PHONE_STATE) {
+            checkVersionSoftware(telephonyManager);
         }
-        catch (NumberFormatException nfe) {
-            sofwareVersionIsInt = false;
-        }
-        //todo: handle this
-        Log.d(TAG, "software version: " + softwareVersion);
-        List<CellInfo> allCellInfo = telMngr.getAllCellInfo(); //todo: analyze these imformations (if possible?) // need ACCESS_COARSE_LOCATION
-        Log.d(TAG, "all cell info: " + allCellInfo);
-        String simNum = telMngr.getLine1Number(); //need READ_SMS || READ_PHONE_STATE || READ_PHONE_NUMBERS
-        Log.d(TAG, "simNum: " + simNum);
 
-        //todo: analyze these imformations (if possible)
+        if (permission_ACCESS_COARSE_LOCATION) {
+            List<CellInfo> allCellInfo = telephonyManager.getAllCellInfo(); //todo: analyze these information (if possible?) // need ACCESS_COARSE_LOCATION
+            Log.d(TAG, "all cell info: " + allCellInfo);
+        }
+
+        if (permission_READ_PHONE_STATE || permission_READ_SMS || permission_READ_PHONE_NUMBERS) {
+            String simNum = telephonyManager.getLine1Number();
+            Log.d(TAG, "simNum: " + simNum);
+            //todo: analyze these imformations (if possible)
+        }
 
         return null;
     }
@@ -113,8 +111,8 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
     }
 
-    void checkNetworkOperatorName(TelephonyManager telMngr) {
-        String networkOperatorName = telMngr.getNetworkOperatorName();
+    void checkNetworkOperatorName(TelephonyManager telephonyManager) {
+        String networkOperatorName = telephonyManager.getNetworkOperatorName();
         Log.d(TAG, "network operator: " + networkOperatorName);
         String infoNetworkOperatorName;
         if (networkOperatorName == null ||
@@ -125,10 +123,21 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
             exampleFragment.setGood(false);
             infoNetworkOperatorName = "\nwhich is bad";
         } else {
-            exampleFragment.setGood(true);
             infoNetworkOperatorName = "\nwhich is probably good";
         }
         exampleFragment.addDetails("The name of the network operator is: " + networkOperatorName + infoNetworkOperatorName);
     }
 
+    void checkVersionSoftware(TelephonyManager telephonyManager) {
+        @SuppressLint("MissingPermission") String softwareVersion = telephonyManager.getDeviceSoftwareVersion();
+        boolean sofwareVersionIsInt = true;
+        try {
+            int softwareVersionInt = Integer.parseInt(softwareVersion);
+        } catch (NumberFormatException nfe) {
+            sofwareVersionIsInt = false;
+        }
+        if (!sofwareVersionIsInt) exampleFragment.setGood(false);
+        Log.d(TAG, "software version: " + softwareVersion + ((sofwareVersionIsInt)? "which is good" : "which is bad, because not an integer"));
+        exampleFragment.addDetails("software version: " + softwareVersion + " " + ((sofwareVersionIsInt)? "which is probably good" : "which is bad, because not an integer"));
+    }
 }

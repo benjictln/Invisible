@@ -34,10 +34,11 @@ public class MainActivity extends AppCompatActivity {
                 backgroundCheck.execute();
             }
         });
-        // ask for permissions
+        // ask for permissions todo: tell the user why we need the permissions
         ActivityCompat.requestPermissions(this,
                 new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION},
                 1);
+
     }
 }
 

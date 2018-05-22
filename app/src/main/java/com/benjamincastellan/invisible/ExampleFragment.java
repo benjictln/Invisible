@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class ExampleFragment extends Fragment {
 
-    private boolean good = false;
+    private boolean good = true;
     private boolean unknown = false;
     private ListView detailListView;
     private ArrayList<String> detailArray = new ArrayList<String>();
