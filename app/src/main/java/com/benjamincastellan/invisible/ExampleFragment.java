@@ -20,6 +20,7 @@ import java.util.ArrayList;
 public class ExampleFragment extends Fragment {
 
     private boolean good = false;
+    private boolean unknown = false;
     private ListView detailListView;
     private ArrayList<String> detailArray = new ArrayList<String>();
     ArrayAdapter<String> adapter;
@@ -45,6 +46,8 @@ public class ExampleFragment extends Fragment {
     public void setGood(boolean good) {
         this.good = good;
     }
+
+    public void setUnknown() {this.unknown = true;}
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -52,8 +55,10 @@ public class ExampleFragment extends Fragment {
         // set the name of the test
         ((TextView) v.findViewById(R.id.text_element)).setText(getArguments().getString("text"));
 
-        // set the image according to if the test was passed or failed
-        if (good) {
+        // set the image according to if the test was passed or failed or unknown
+        if (unknown) {
+            ((ImageView) v.findViewById(R.id.image_element)).setImageDrawable(getResources().getDrawable(R.drawable.interrogation_mark));
+        }else if (good) {
             ((ImageView) v.findViewById(R.id.image_element)).setImageDrawable(getResources().getDrawable(R.drawable.good));
         }else{
             ((ImageView) v.findViewById(R.id.image_element)).setImageDrawable(getResources().getDrawable(R.drawable.bad));
