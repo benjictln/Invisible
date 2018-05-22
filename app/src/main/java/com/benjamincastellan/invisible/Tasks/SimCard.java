@@ -83,7 +83,24 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
             return null;  //todo: handle this case properly (no picture displayed ?)
         }
 
-        List<CellInfo> allCellInfo = telMngr.getAllCellInfo();
+        checkNetworkOperatorName(telMngr);
+
+        List<CellInfo> allCellInfo = telMngr.getAllCellInfo(); //todo: analyze these imformations (if possible?)
+        Log.d(TAG, "all cell info: " + allCellInfo);
+        String simNum = telMngr.getLine1Number();
+        Log.d(TAG, "simNum: " + simNum);
+
+        //todo: analyze these imformations (if possible)
+
+        return null;
+    }
+
+    @Override
+    protected void onPostExecute(Void result) {
+        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
+    }
+
+    void checkNetworkOperatorName(TelephonyManager telMngr) {
         String networkOperatorName = telMngr.getNetworkOperatorName();
         Log.d(TAG, "network operator: " + networkOperatorName);
         String infoNetworkOperatorName;
@@ -99,18 +116,6 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
             infoNetworkOperatorName = "\nwhich is probably good";
         }
         exampleFragment.addDetails("The name of the network operator is: " + networkOperatorName + infoNetworkOperatorName);
-        Log.d(TAG, "all cell info: " + allCellInfo);
-        String simNum = telMngr.getLine1Number();
-        Log.d(TAG, "simNum: " + simNum);
-
-        //todo: analyze these imformations (if possible)
-
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
-        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
     }
 
 }
