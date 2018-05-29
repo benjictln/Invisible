@@ -1,7 +1,9 @@
 package com.benjamincastellan.invisible.Tasks;
 
 import android.app.Activity;
+import android.database.Cursor;
 import android.os.AsyncTask;
+import android.provider.Browser;
 import android.util.Log;
 import android.widget.LinearLayout;
 
@@ -9,11 +11,21 @@ import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
 import com.benjamincastellan.invisible.R;
 
-import static android.content.ContentValues.TAG;
+import android.provider.Browser;
+import android.net.Uri;
+import android.database.Cursor;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+
 
 public class CheckInternetHistory extends AsyncTask<Void,Integer,Void> {
 
-
+    final String TAG = "Browser History Task";
     private Activity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
@@ -39,14 +51,50 @@ public class CheckInternetHistory extends AsyncTask<Void,Integer,Void> {
 
     @Override
     protected Void doInBackground(Void... voids) {
-        publishProgress(0);
+        new Thread(){
+            @Override
+            public void run(){
+                URL url = null;
+                try {
+                    url = new URL("Chrome://history");
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                URLConnection conn = null;
+                try {
+                    conn = url.openConnection();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                InputStreamReader streamReader = null;
+                try {
+                    streamReader = new InputStreamReader(conn.getInputStream());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                BufferedReader br = new BufferedReader(streamReader);
+                StringBuilder sb = new StringBuilder();
+                String line = null;
+                try {
+                    while((line = br.readLine()) != null) {
+                        sb.append(line);sb.append("\n");
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                Log.d(TAG, sb.toString());
+            }
+        }.start();
         return null;
     }
 
     @Override
     protected void onPostExecute(Void result) {
         exampleFragment.setGood(true);
-        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, "someTag2").commit();
+        /*for (int i = 0; i < 10; i++) {
+            exampleFragment.addDetails("test");
+        }*/
+        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
@@ -54,5 +102,8 @@ public class CheckInternetHistory extends AsyncTask<Void,Integer,Void> {
         }
 
     }
+
+
+    
 
 }
