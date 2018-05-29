@@ -3,7 +3,10 @@ package com.benjamincastellan.invisible;
 import android.app.Fragment;
 
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ public class ExampleFragment extends Fragment {
     private boolean unknown = false;
     private ListView detailListView;
     private ArrayList<String> detailArray = new ArrayList<String>();
+    private ArrayList<Integer> isPositiveComment = new ArrayList<Integer>(); // 0:positive, 1: negative, 2:neutral
     ArrayAdapter<String> adapter;
 
     public static ExampleFragment newInstance(String text,Boolean bool) {
@@ -40,10 +44,14 @@ public class ExampleFragment extends Fragment {
         return f;
     }
 
-
     public void addDetails(String details) {
-        // TODO: 18/05/2018 add details to the view
         detailArray.add(details);
+        this.isPositiveComment.add(2);
+    }
+
+    public void addDetails(String details, Boolean isPositiveComment) {
+        detailArray.add(details);
+        this.isPositiveComment.add((isPositiveComment)?0:1);
     }
 
     public void setGood(boolean good) {
@@ -68,12 +76,30 @@ public class ExampleFragment extends Fragment {
         }
 
         // add the details of how the test happened
-        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.detail_layout, detailArray);
+        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.detail_layout, detailArray){
+            @NonNull
+            @Override
+            public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+                TextView textView = (TextView) super.getView(position, convertView, parent);
+                switch (isPositiveComment.get(position)){
+                    case 0:
+                        textView.setTextColor(Color.parseColor("#006400"));
+                        break;
+                    case 1:
+                        textView.setTextColor(Color.parseColor("#B20000"));
+                        break;
+                    case 2:
+                        textView.setTextColor(Color.GRAY);
+                }
+                return textView;
+            }
+        };
         detailListView = v.findViewById(R.id.detail_list_view);
         detailListView.setAdapter(adapter);
         justifyListViewHeightBasedOnChildren(detailListView);
         return v;
     }
+
 
     // make sure the list view is big enough, and not scrollable
     public void justifyListViewHeightBasedOnChildren (ListView listView) {

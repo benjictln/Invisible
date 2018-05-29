@@ -116,9 +116,9 @@ public class BuildInformation extends AsyncTask<Void,Integer,Void> {
         }
 
         exampleFragment.setGood(nb_of_suspicious_values<3);
-        exampleFragment.addDetails(String.format("There were %d suspicious value(s):", nb_of_suspicious_values));
+        exampleFragment.addDetails(String.format("There were %d suspicious value(s):", nb_of_suspicious_values), (nb_of_suspicious_values == 0));
         for (String suspiciousValue: suspiciousValues) {
-            exampleFragment.addDetails(suspiciousValue);
+            exampleFragment.addDetails(suspiciousValue , false);
         }
         return null;
     }

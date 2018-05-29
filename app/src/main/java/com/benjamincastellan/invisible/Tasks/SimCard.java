@@ -82,7 +82,7 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
                     ((!permission_READ_PHONE_NUMBERS)? "\nREAD_PHONE_NUMBERS" : "") +
                     ((!permission_READ_PHONE_STATE)? "\nREAD_PHONE_STATE":"") +
                     ((!permission_ACCESS_COARSE_LOCATION)? "\nACCESS_COARSE_LOCATION" :"");
-            exampleFragment.addDetails("Need the following permissions to achieve this task:"+permissionMissing);
+            exampleFragment.addDetails("Need the following permissions to achieve this task:"+permissionMissing,false);
             exampleFragment.setUnknown();
         }
 
@@ -115,6 +115,7 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
         String networkOperatorName = telephonyManager.getNetworkOperatorName();
         Log.d(TAG, "network operator: " + networkOperatorName);
         String infoNetworkOperatorName;
+        boolean isItGood;
         if (networkOperatorName == null ||
                 networkOperatorName.equals("Android") ||
                 networkOperatorName.equals("")) {
@@ -122,10 +123,12 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
             // todo:what about tablets ?
             exampleFragment.setGood(false);
             infoNetworkOperatorName = "\nwhich is bad";
+            isItGood = false;
         } else {
             infoNetworkOperatorName = "\nwhich is probably good";
+            isItGood = true;
         }
-        exampleFragment.addDetails("The name of the network operator is: " + networkOperatorName + infoNetworkOperatorName);
+        exampleFragment.addDetails("The name of the network operator is: " + networkOperatorName + infoNetworkOperatorName, isItGood);
     }
 
     void checkVersionSoftware(TelephonyManager telephonyManager) {
@@ -138,6 +141,6 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
         }
         if (!sofwareVersionIsInt) exampleFragment.setGood(false);
         Log.d(TAG, "software version: " + softwareVersion + ((sofwareVersionIsInt)? "which is good" : "which is bad, because not an integer"));
-        exampleFragment.addDetails("software version: " + softwareVersion + " " + ((sofwareVersionIsInt)? "which is probably good" : "which is bad, because not an integer"));
+        exampleFragment.addDetails("software version: " + softwareVersion + " " + ((sofwareVersionIsInt)? "which is probably good" : "which is bad, because not an integer"),sofwareVersionIsInt);
     }
 }
