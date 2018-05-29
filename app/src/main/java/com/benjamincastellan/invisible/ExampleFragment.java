@@ -2,7 +2,10 @@ package com.benjamincastellan.invisible;
 
 import android.app.Fragment;
 
+import android.content.res.Resources;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +76,7 @@ public class ExampleFragment extends Fragment {
     }
 
     // make sure the list view is big enough, and not scrollable
-    public static void justifyListViewHeightBasedOnChildren (ListView listView) {
+    public void justifyListViewHeightBasedOnChildren (ListView listView) {
 
         ListAdapter adapter = listView.getAdapter();
 
@@ -85,12 +88,20 @@ public class ExampleFragment extends Fragment {
         for (int i = 0; i < adapter.getCount(); i++) {
             View listItem = adapter.getView(i, null, vg);
             listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
+            Log.d("exampleFragment", "justifyListViewHeightBasedOnChildren: " + String.valueOf(listItem.getMeasuredHeight()));
+            totalHeight += (i == adapter.getCount()?2:1) * listItem.getMeasuredHeight();
         }
 
         ViewGroup.LayoutParams par = listView.getLayoutParams();
-        par.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
+        par.height = (this.detailArray.size()) * convertDpToPixel(44) + convertDpToPixel(20); // 44 because  2 lines (textsize 12 dp + padding up 5 dp + padding down 5 dp)  20 because padding 10 dp (up and down)
         listView.setLayoutParams(par);
         listView.requestLayout();
+
+    }
+
+    public static int convertDpToPixel(float dp){
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.densityDpi / 160f);
+        return Math.round(px);
     }
 }
