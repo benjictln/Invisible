@@ -46,12 +46,14 @@ public class StorageInformation extends AsyncTask<Void,Integer,Void> {
         long freeSpace = stat.getFreeBytes();
         long totalSpace = stat.getTotalBytes();
         long usedSpace = totalSpace - freeSpace;
-        exampleFragment.addDetails("Free space: " + convertInAppropriateFormat(freeSpace));
-        exampleFragment.addDetails("Used space: " + convertInAppropriateFormat(usedSpace));
-        exampleFragment.addDetails("Total space: " + convertInAppropriateFormat(totalSpace));
-
         long oneGigaByte = (long) Math.pow(2,30);
-        if (usedSpace < 2*oneGigaByte || totalSpace < 3*oneGigaByte)
+        boolean usedSpaceBad = (usedSpace < 2*oneGigaByte);
+        boolean totalSpaceBad = (totalSpace < 3*oneGigaByte);
+        exampleFragment.addDetails("Free space: " + convertInAppropriateFormat(freeSpace));
+        exampleFragment.addDetails("Used space: " + convertInAppropriateFormat(usedSpace),!usedSpaceBad);
+        exampleFragment.addDetails("Total space: " + convertInAppropriateFormat(totalSpace), !totalSpaceBad);
+
+        if (usedSpaceBad || totalSpaceBad)
             exampleFragment.setGood(false);
         else
             exampleFragment.setGood(true);
