@@ -6,13 +6,12 @@
     >
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="70dp"
         android:padding="5dp"
         android:id="@+id/frameLayoutFragment"
         >
         <TextView
             android:layout_width="wrap_content"
-            android:maxWidth="200dp"
             android:layout_height="match_parent"
             android:text="hello"
             android:id="@+id/text_element"
