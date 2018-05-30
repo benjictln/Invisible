@@ -58,37 +58,41 @@ public class BuildInformation extends AsyncTask<Void,Integer,Void> {
             nb_of_suspicious_values++;
             suspiciousValues.add("Build.DEVICE = \"" + Build.DEVICE + "\"");
         }
-        if (Build.DISPLAY.equals("OSM1.180201.007")) {
+        if (Build.DISPLAY.equals("OSM1.180201.007") || Build.DISPLAY.contains("x86")) {
             nb_of_suspicious_values++;
-            suspiciousValues.add("Build.DISPLAY = \"OSM1.180201.007\"");
+            suspiciousValues.add("Build.DISPLAY = \"" + Build.DISPLAY + "\"");
         }
-        if (Build.FINGERPRINT.equals("google/sdk_gphone_x86/generic_x86:8.1.0/OSM1.180201.007/4586646:user/release-keys")) {
+        if (Build.FINGERPRINT.contains("x86")) {
             nb_of_suspicious_values++;
             suspiciousValues.add("Build.FINGERPRINT = \"google/sdk_gphone_x86/generic_x86:8.1.0/OSM1.180201.007/4586646:user/release-keys\"");
         }
-        if (Build.HARDWARE.equals("ranchu") || Build.HARDWARE.equals("goldfish")) {
+        if (Build.HARDWARE.equals("ranchu") || Build.HARDWARE.equals("goldfish") || Build.HARDWARE.contains("x86")) {
             nb_of_suspicious_values++;
             suspiciousValues.add("Build.HARDWARE = \"" + Build.HARDWARE + "\"");
         }
-        if (Build.HOST.equals("abfarm281")) {
+        if (Build.HOST.equals("abfarm281") || Build.HOST.equals("611c837ede08")) {
             nb_of_suspicious_values++;
             suspiciousValues.add("Build.HOST = \"abfarm281\"");
         }
-        if (Build.ID.equals("OSM1.180201.007")) {
+        if (Build.ID.equals("OSM1.180201.007") || Build.ID.equals("OPR6.170623.017")) {
             nb_of_suspicious_values++;
-            suspiciousValues.add("Build.ID = \"OSM1.180201.007\"");
+            suspiciousValues.add("Build.ID = \"" + Build.ID + "\"");
         }
         if (Build.MODEL.contains("Android SDK built")) {
             nb_of_suspicious_values++;
             suspiciousValues.add("Build.MODEL = \"" + Build.HARDWARE + "\"");
         }
-        if (Build.PRODUCT.equals("sdk_gphone_x86")) {
+        if (Build.PRODUCT.contains("x86")) {
             nb_of_suspicious_values++;
-            suspiciousValues.add("Build.PRODUCT = \"sdk_gphone_x86\"");
+            suspiciousValues.add("Build.PRODUCT = \"" + Build.PRODUCT + "\"");
         }
-        if (Build.USER.equals("android-build")) {
+        if (Build.TYPE.contains("debug")) {
             nb_of_suspicious_values++;
-            suspiciousValues.add("Build.USER = \"android-build\"");
+            suspiciousValues.add("Build.TYPE = \"" + Build.TYPE + "\"");
+        }
+        if (Build.USER.equals("android-build") || Build.USER.equals(("genymotion"))) {
+            nb_of_suspicious_values++;
+            suspiciousValues.add("Build.USER = \"" + Build.USER + "\"");
         }
         if (Build.getRadioVersion().equals("")) {
             nb_of_suspicious_values++;
@@ -131,28 +135,28 @@ public class BuildInformation extends AsyncTask<Void,Integer,Void> {
     private void logValuesBuild() {
         Boolean permission_READ_PHONE_STATE = (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
 
-        Log.d(TAG, "doInBackground: " + Build.BOARD + "\n" //unknown for the emulator google, MHA for my phone
-                + Build.BOOTLOADER + "\n"   //unknown for the emulator google, unknown for my phone
-                + Build.BRAND + "\n"  // google for the emulator google, HUAWEI for my phone
-                + Build.DEVICE + "\n"  //generic_x86 for the emulator google, HWMHA for my phone
-                + Build.DISPLAY + "\n" // OSM1.180201.007 fot the emulator google, MHA-L29 8.0.0.368(C636) for my phone
-                + Build.FINGERPRINT + "\n"  //google/sdk_gphone_x86/generic_x86:8.1.0/OSM1.180201.007/4586646:user/release-keys for the emulator google, HUAWEI/MHA-L29/HWMHA:8.0.0/HUAWEIMHA-L29/368(C636):user/release-keys for my phone
-                + Build.HARDWARE + "\n" // ranchu for the emulator google, hi3660 for my phone
-                + Build.HOST + "\n" // abfarm281 for the emulator google, WUH1000129002 for my phone
-                + Build.ID + "\n" // OSM1.180201.007 for the emulator google, HUAWEIMHA-L29 for my phone
-                + Build.MANUFACTURER + "\n" // Google for the emulator google, HUAWEI for my phone
-                + Build.MODEL + "\n" // Android SDK built for x86 for the emulator google, MHA-L29 for my phone
-                + Build.PRODUCT + "\n" // sdk_gphone_x86 for the emulator google, MHA-L29 for my phone
-                + "type " + Build.TYPE + "\n" // user for the emulator google, user for my phone
-                + "user " + Build.USER + "\n" // android-build for the emulator google, test for my phone
-                + Build.getRadioVersion() + "\n" // nothing for the emulator google, 21C30B323S001C000,21C30B323S001C000 for my phone
+        Log.d(TAG, "doInBackground: " + Build.BOARD + "\n" //unknown for the emulator google, unknown for genymotion, MHA for my phone
+                + Build.BOOTLOADER + "\n"   //unknown for the emulator google, unknown for genymotion, unknown for my phone
+                + Build.BRAND + "\n"  // google for the emulator google, Android for genymotion, HUAWEI for my phone
+                + Build.DEVICE + "\n"  //generic_x86 for the emulator google, vbox86p for genymotion, HWMHA for my phone
+                + Build.DISPLAY + "\n" // OSM1.180201.007 fot the emulator google, vbox86p-userdebug 8.0.0 OPR6.170623.017 32 test-keys for genymotion, MHA-L29 8.0.0.368(C636) for my phone
+                + Build.FINGERPRINT + "\n"  //google/sdk_gphone_x86/generic_x86:8.1.0/OSM1.180201.007/4586646:user/release-keys for the emulator google, Android/vbox86p/vbox86p:8.0.0/OPR6.170623.017/32:userdebug/test-keys for genymotion, HUAWEI/MHA-L29/HWMHA:8.0.0/HUAWEIMHA-L29/368(C636):user/release-keys for my phone
+                + Build.HARDWARE + "\n" // ranchu for the emulator google, vbox86 for genymotion, hi3660 for my phone
+                + Build.HOST + "\n" // abfarm281 for the emulator google, 611c837ede08 for genymotion, WUH1000129002 for my phone
+                + Build.ID + "\n" // OSM1.180201.007 for the emulator google, OPR6.170623.017 for genymotion, HUAWEIMHA-L29 for my phone
+                + Build.MANUFACTURER + "\n" // Google for the emulator google, Genymotion for genymotion, HUAWEI for my phone
+                + Build.MODEL + "\n" // Android SDK built for x86 for the emulator google, Samsung Galaxy S8 - 8.0 - API 26 - 1440x2960 for genymotion(could be whatever we want), MHA-L29 for my phone
+                + Build.PRODUCT + "\n" // sdk_gphone_x86 for the emulator google, vbox86p for genymotion, MHA-L29 for my phone
+                + "type " + Build.TYPE + "\n" // user for the emulator google, userdebug for genymotion, user for my phone
+                + "user " + Build.USER + "\n" // android-build for the emulator google, genymotion for genymotion, test for my phone
+                + Build.getRadioVersion() + "\n" // nothing for the emulator google and genymotion, 21C30B323S001C000,21C30B323S001C000 for my phone
         );
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Log.d(TAG, "doInBackground: " + Arrays.toString(Build.SUPPORTED_32_BIT_ABIS) + "\n" // [x86] for the emulator google, [armeabi-v7a, armeabi] for my phone
-                    + Arrays.toString(Build.SUPPORTED_64_BIT_ABIS)); // [] for the emulator google, [arm64-v8a] for my phone);
+            Log.d(TAG, "doInBackground: " + Arrays.toString(Build.SUPPORTED_32_BIT_ABIS) + "\n" // [x86] for the emulator google and genymotion, [armeabi-v7a, armeabi] for my phone
+                    + Arrays.toString(Build.SUPPORTED_64_BIT_ABIS)); // [] for the emulator google and genymotion, [arm64-v8a] for my phone);
         }
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) { // unknown for the emulator google, a value for my phone
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) { // unknown for the emulator google and genymotion, a value for my phone
             Log.d(TAG, "doInBackground: " + Build.SERIAL);
         }else if (permission_READ_PHONE_STATE) {
             Log.d(TAG, "doInBackground: " + Build.getSerial());
