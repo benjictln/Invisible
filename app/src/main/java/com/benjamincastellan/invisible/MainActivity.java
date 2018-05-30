@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
@@ -29,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         mButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                ll.removeAllViews(); // to remove the Start button
+                findViewById(R.id.initialLayout).setVisibility(View.GONE); // to remove the Start button
                 BackgroundTask backgroundCheck=new BackgroundTask(MainActivity.this, ll);
                 backgroundCheck.execute();
             }
