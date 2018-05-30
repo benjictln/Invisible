@@ -1,9 +1,8 @@
 package com.benjamincastellan.invisible;
 
-import android.app.Activity;
 import android.widget.LinearLayout;
 
-import com.benjamincastellan.invisible.Tasks.CheckInternetHistory;
+import com.benjamincastellan.invisible.Tasks.BuildInformation;
 import com.benjamincastellan.invisible.Tasks.CheckNbOfAppsInstalled;
 import com.benjamincastellan.invisible.Tasks.SimCard;
 import com.benjamincastellan.invisible.Tasks.StorageInformation;
@@ -31,6 +30,10 @@ public class LaunchTasks {
             case 3:
                 SimCard simCard = new SimCard(activity, ll);
                 simCard.execute();
+                break;
+            case 4:
+                BuildInformation buildInformation = new BuildInformation(activity, ll);
+                buildInformation.execute();
                 break;
             default:
                 break;
