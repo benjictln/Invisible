@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -31,6 +32,7 @@ public class ExampleFragment extends Fragment {
     private ArrayList<String> detailArray = new ArrayList<String>();
     private ArrayList<Integer> isPositiveComment = new ArrayList<Integer>(); // 0:positive, 1: negative, 2:neutral
     ArrayAdapter<String> adapter;
+    private FrameLayout frameLayoutFragment;
 
     public static ExampleFragment newInstance(String text,Boolean bool) {
 
@@ -96,7 +98,15 @@ public class ExampleFragment extends Fragment {
         };
         detailListView = v.findViewById(R.id.detail_list_view);
         detailListView.setAdapter(adapter);
+        frameLayoutFragment = (FrameLayout) v.findViewById(R.id.frameLayoutFragment);
+        frameLayoutFragment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                detailListView.setVisibility((detailListView.getVisibility() == View.GONE) ? View.VISIBLE : View.GONE);
+            }
+        });
         justifyListViewHeightBasedOnChildren(detailListView);
+
         return v;
     }
 
@@ -130,4 +140,5 @@ public class ExampleFragment extends Fragment {
         float px = dp * (metrics.densityDpi / 160f);
         return Math.round(px);
     }
+
 }
