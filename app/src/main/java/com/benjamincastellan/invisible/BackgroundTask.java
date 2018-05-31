@@ -44,8 +44,8 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
 
         for (nb_operation_done=0;nb_operation_done<nb_tasks_available;nb_operation_done++)
         {
-            launchTasks.execute(nb_operation_done, activity, ll);
-            publishProgress(nb_operation_done);
+            int worked = launchTasks.execute(nb_operation_done, activity, ll);
+            publishProgress(nb_operation_done, worked);
         }
         return null;
     }

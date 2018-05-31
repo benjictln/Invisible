@@ -17,7 +17,7 @@ import java.util.Arrays;
 import java.util.Date;
 
 
-public class BuildInformation extends AsyncTask<Void,Integer,Void> {
+public class BuildInformation{
 
     private MainActivity activity;
     private LinearLayout ll;
@@ -30,25 +30,10 @@ public class BuildInformation extends AsyncTask<Void,Integer,Void> {
         exampleFragment = ExampleFragment.newInstance("Checking the build information", true);
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        //set the start date of the new task
-        activity.addStartDate(new Date());
-    }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        // Mise à jour de la ProgressBar
-        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
-
-
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
+    public int execute() {
         // todo: test with genymotion and other emulators
+        activity.addStartDate(new Date());
         logValuesBuild();
         Boolean permission_READ_PHONE_STATE = (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);
         int nb_of_suspicious_values = 0;
@@ -127,13 +112,10 @@ public class BuildInformation extends AsyncTask<Void,Integer,Void> {
         for (String suspiciousValue: suspiciousValues) {
             exampleFragment.addDetails(suspiciousValue , false);
         }
-        return null;
+        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
+        return 1;
     }
 
-    @Override
-    protected void onPostExecute(Void result) {
-        activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
-    }
 
     private void logValuesBuild() {
         Boolean permission_READ_PHONE_STATE = (ActivityCompat.checkSelfPermission(activity.getApplicationContext(), Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED);

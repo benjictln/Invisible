@@ -11,7 +11,7 @@ import com.benjamincastellan.invisible.MainActivity;
 import java.util.Date;
 
 
-public class ExampleStructure extends AsyncTask<Void,Integer,Void> { // todo: replace name
+public class ExampleStructure { // todo: replace name
 
     private MainActivity activity;
     private LinearLayout ll;
@@ -24,31 +24,14 @@ public class ExampleStructure extends AsyncTask<Void,Integer,Void> { // todo: re
         exampleFragment = ExampleFragment.newInstance("I am ...", true); // todo: replace it
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
+    public int doInBackground(Void... voids) {
         //set the start date of the new task
         activity.addStartDate(new Date());
-    }
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        // Mise à jour de la ProgressBar
-        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
+        // do stuff
 
-
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
-        publishProgress(0);
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
-    }
 
+        return 1;
+    }
 }

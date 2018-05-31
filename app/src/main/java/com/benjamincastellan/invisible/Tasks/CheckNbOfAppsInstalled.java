@@ -16,7 +16,7 @@ import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
-public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
+public class CheckNbOfAppsInstalled {
 
     private MainActivity activity;
     private LinearLayout ll;
@@ -34,24 +34,8 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
         appMatched = new StringBuilder();
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        //set the start date of the new task
+    public int execute() {
         activity.addStartDate(new Date());
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values){
-        super.onProgressUpdate(values);
-        // Mise à jour de la ProgressBar
-        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
-
-
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
         PackageManager packageManager = activity.getPackageManager();
         // we retrieve the apps installed on the phone
         List<ApplicationInfo> installedApps = activity.getPackageManager().getInstalledApplications(0);
@@ -103,18 +87,13 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
         String commentNbOfMatches = (nbOfMatches==0)? "(Suspicious)" : ":";
 
         exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android" + commentNbOfMatches + appMatched.toString());
-        publishProgress(0);
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        return 1;
     }
+
 }

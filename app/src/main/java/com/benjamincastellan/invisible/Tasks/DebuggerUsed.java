@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 
-public class DebuggerUsed extends AsyncTask<Void,Integer,Void> { // todo: replace name
+public class DebuggerUsed { // todo: replace name
 
     private MainActivity activity;
     private LinearLayout ll;
@@ -26,22 +26,7 @@ public class DebuggerUsed extends AsyncTask<Void,Integer,Void> { // todo: replac
         exampleFragment = ExampleFragment.newInstance("Check for debugger", true);
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        // Mise à jour de la ProgressBar
-        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
-
-
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
+    public int execute() {
 
         Log.d(TAG, "doInBackground: isDebuggerConnected ->" + String.valueOf(Debug.isDebuggerConnected()));
         if (Debug.isDebuggerConnected()) {
@@ -54,14 +39,11 @@ public class DebuggerUsed extends AsyncTask<Void,Integer,Void> { // todo: replac
         ArrayList<Date> timeStartedTheTask = activity.getTimeStartedTheTask();
         Date thisTime = new Date();
         for (int i = 0; i < timeStartedTheTask.size(); i++) {
-            Log.d(TAG, "calculate time spend since start of task" + String.valueOf(i) + ": " + String.valueOf((thisTime.getTime() - timeStartedTheTask.get(i).getTime()) / 60 ) + " s");
+            Log.d(TAG, "calculate time spend since start of task" + String.valueOf(i) + ": " + String.valueOf((thisTime.getTime() - timeStartedTheTask.get(i).getTime())  ) + " ms");
         }
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
+
+        return 1;
     }
 
 }

@@ -13,7 +13,7 @@ import java.util.Date;
 
 public class LaunchTasks {
 
-    public void execute(int nb, MainActivity activity, LinearLayout ll){
+    public int execute(int nb, MainActivity activity, LinearLayout ll){
 
         switch (nb) {
             case 0:
@@ -22,29 +22,24 @@ public class LaunchTasks {
                 CheckInternetHistory checkInternetHistory = new CheckInternetHistory(activity, ll);
                 checkInternetHistory.execute();
                 */
-                break;
+                return 0;
             case 1:
                 CheckNbOfAppsInstalled checkNbOfAppsInstalled = new CheckNbOfAppsInstalled(activity, ll);
-                checkNbOfAppsInstalled.execute();
-                break;
+                return checkNbOfAppsInstalled.execute();
             case 2:
                 StorageInformation storageInformation = new StorageInformation(activity, ll);
-                storageInformation.execute();
-                break;
+                return storageInformation.execute();
             case 3:
                 SimCard simCard = new SimCard(activity, ll);
-                simCard.execute();
-                break;
+                return simCard.execute();
             case 4:
                 BuildInformation buildInformation = new BuildInformation(activity, ll);
-                buildInformation.execute();
-                break;
+                return buildInformation.execute();
             case 5:
                 DebuggerUsed debuggerUsed = new DebuggerUsed(activity, ll);
-                debuggerUsed.execute();
-                break;
+                return debuggerUsed.execute();
             default:
-                break;
+                return 0;
         }
     }
 }
