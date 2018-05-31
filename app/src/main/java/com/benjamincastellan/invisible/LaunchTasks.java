@@ -4,6 +4,7 @@ import android.widget.LinearLayout;
 
 import com.benjamincastellan.invisible.Tasks.BuildInformation;
 import com.benjamincastellan.invisible.Tasks.CheckNbOfAppsInstalled;
+import com.benjamincastellan.invisible.Tasks.DebuggerUsed;
 import com.benjamincastellan.invisible.Tasks.SimCard;
 import com.benjamincastellan.invisible.Tasks.StorageInformation;
 
@@ -34,6 +35,10 @@ public class LaunchTasks {
             case 4:
                 BuildInformation buildInformation = new BuildInformation(activity, ll);
                 buildInformation.execute();
+                break;
+            case 5:
+                DebuggerUsed debuggerUsed = new DebuggerUsed(activity, ll);
+                debuggerUsed.execute();
                 break;
             default:
                 break;
