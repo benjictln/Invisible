@@ -8,10 +8,12 @@ import android.widget.LinearLayout;
 import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
 
+import java.util.Date;
+
 
 public class ExampleStructure extends AsyncTask<Void,Integer,Void> { // todo: replace name
 
-    private Activity activity;
+    private MainActivity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
     final String TAG = "Name of the task"; // todo: replace it
@@ -25,6 +27,8 @@ public class ExampleStructure extends AsyncTask<Void,Integer,Void> { // todo: re
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        //set the start date of the new task
+        activity.addStartDate(new Date());
     }
 
     @Override

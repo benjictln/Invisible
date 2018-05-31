@@ -14,11 +14,12 @@ import com.benjamincastellan.invisible.MainActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 
 
 public class BuildInformation extends AsyncTask<Void,Integer,Void> {
 
-    private Activity activity;
+    private MainActivity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
     final String TAG = "BuildInformation";
@@ -32,6 +33,8 @@ public class BuildInformation extends AsyncTask<Void,Integer,Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        //set the start date of the new task
+        activity.addStartDate(new Date());
     }
 
     @Override

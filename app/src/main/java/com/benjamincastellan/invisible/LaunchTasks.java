@@ -8,10 +8,13 @@ import com.benjamincastellan.invisible.Tasks.DebuggerUsed;
 import com.benjamincastellan.invisible.Tasks.SimCard;
 import com.benjamincastellan.invisible.Tasks.StorageInformation;
 
+import java.util.Date;
+
 
 public class LaunchTasks {
 
     public void execute(int nb, MainActivity activity, LinearLayout ll){
+
         switch (nb) {
             case 0:
                 /*

@@ -21,12 +21,13 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
 
 
 public class CheckInternetHistory extends AsyncTask<Void,Integer,Void> {
 
     final String TAG = "Browser History Task";
-    private Activity activity;
+    private MainActivity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
 
@@ -38,6 +39,8 @@ public class CheckInternetHistory extends AsyncTask<Void,Integer,Void> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
+        //set the start date of the new task
+        activity.addStartDate(new Date());
     }
 
     @Override

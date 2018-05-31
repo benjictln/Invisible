@@ -51,7 +51,12 @@ public class DebuggerUsed extends AsyncTask<Void,Integer,Void> { // todo: replac
             exampleFragment.addDetails("the debugger was not easily spotted", true);
         }
 
-
+        ArrayList<Date> timeStartedTheTask = activity.getTimeStartedTheTask();
+        Date thisTime = new Date();
+        for (int i = 0; i < timeStartedTheTask.size(); i++) {
+            Log.d(TAG, "calculate time spend since start of task" + String.valueOf(i) + ": " + String.valueOf((thisTime.getTime() - timeStartedTheTask.get(i).getTime()) / 60 ) + " s");
+        }
+        return null;
     }
 
     @Override
