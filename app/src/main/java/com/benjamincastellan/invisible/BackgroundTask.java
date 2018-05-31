@@ -16,7 +16,7 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
     private MainActivity activity;
     private int nb_operation_done;
     private LinearLayout ll;
-    private final int nb_tasks_available = 5;
+    private final int nb_tasks_available = 6;
     private LaunchTasks launchTasks;
 
     public BackgroundTask(MainActivity activity, LinearLayout ll) {

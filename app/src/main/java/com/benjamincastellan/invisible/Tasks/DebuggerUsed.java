@@ -2,16 +2,20 @@ package com.benjamincastellan.invisible.Tasks;
 
 import android.app.Activity;
 import android.os.AsyncTask;
+import android.os.Debug;
 import android.util.Log;
 import android.widget.LinearLayout;
 
 import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 
 public class DebuggerUsed extends AsyncTask<Void,Integer,Void> { // todo: replace name
 
-    private Activity activity;
+    private MainActivity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
     final String TAG = "Check for debugger";
@@ -38,8 +42,16 @@ public class DebuggerUsed extends AsyncTask<Void,Integer,Void> { // todo: replac
 
     @Override
     protected Void doInBackground(Void... voids) {
-        publishProgress(0);
-        return null;
+
+        Log.d(TAG, "doInBackground: isDebuggerConnected ->" + String.valueOf(Debug.isDebuggerConnected()));
+        if (Debug.isDebuggerConnected()) {
+            exampleFragment.setGood(false);
+            exampleFragment.addDetails("The debugger was easily spotted", false);
+        } else {
+            exampleFragment.addDetails("the debugger was not easily spotted", true);
+        }
+
+
     }
 
     @Override
