@@ -11,11 +11,12 @@ import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
 
 import java.text.DecimalFormat;
+import java.util.Date;
 
 
-public class StorageInformation extends AsyncTask<Void,Integer,Void> {
+public class StorageInformation {
 
-    private Activity activity;
+    private MainActivity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
     final String TAG = "Storage Information";
@@ -26,22 +27,11 @@ public class StorageInformation extends AsyncTask<Void,Integer,Void> {
         exampleFragment = ExampleFragment.newInstance("Check the storage of the device", true);
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
+    public int execute() {
 
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        // Mise à jour de la ProgressBar
-        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
+        //set the start date of the new task
+        activity.addStartDate(new Date());
 
-
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
         StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
         long freeSpace = stat.getFreeBytes();
         long totalSpace = stat.getTotalBytes();
@@ -57,14 +47,11 @@ public class StorageInformation extends AsyncTask<Void,Integer,Void> {
             exampleFragment.setGood(false);
         else
             exampleFragment.setGood(true);
-        return null;
-    }
 
-    @Override
-    protected void onPostExecute(Void result) {
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
-    }
 
+        return 1;
+    }
 
     public String convertInAppropriateFormat(long value) {
         // convert in GigaBytes, KiloBytes or MegaBytes according to the most appropriate

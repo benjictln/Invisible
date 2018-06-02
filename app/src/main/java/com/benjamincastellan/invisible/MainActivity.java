@@ -10,8 +10,12 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
+import java.util.ArrayList;
+import java.util.Date;
+
 public class MainActivity extends AppCompatActivity {
 
+    private ArrayList<Date> timeStartedTheTask;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         ll.setOrientation(LinearLayout.VERTICAL);
         ll.setId(12345);
 
+        timeStartedTheTask = new ArrayList<Date>();
         // Create the button that starts all the different tasks
         Button mButton = (Button) findViewById(R.id.btnLaunch);
         mButton.setOnClickListener(new View.OnClickListener() {
@@ -40,6 +45,13 @@ public class MainActivity extends AppCompatActivity {
                 new String[]{Manifest.permission.READ_SMS, Manifest.permission.READ_PHONE_STATE, Manifest.permission.READ_PHONE_NUMBERS, Manifest.permission.ACCESS_COARSE_LOCATION},
                 1);
 
+    }
+    public void addStartDate(Date date) {
+        this.timeStartedTheTask.add(date);
+    }
+
+    public ArrayList<Date> getTimeStartedTheTask() {
+        return timeStartedTheTask;
     }
 }
 

@@ -16,7 +16,7 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
     private MainActivity activity;
     private int nb_operation_done;
     private LinearLayout ll;
-    private final int nb_tasks_available = 5;
+    private final int nb_tasks_available = 6;
     private LaunchTasks launchTasks;
 
     public BackgroundTask(MainActivity activity, LinearLayout ll) {
@@ -44,8 +44,8 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
 
         for (nb_operation_done=0;nb_operation_done<nb_tasks_available;nb_operation_done++)
         {
-            launchTasks.execute(nb_operation_done, activity, ll);
-            publishProgress(nb_operation_done);
+            int worked = launchTasks.execute(nb_operation_done, activity, ll);
+            publishProgress(nb_operation_done, worked);
         }
         return null;
     }

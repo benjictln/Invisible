@@ -11,13 +11,14 @@ import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
 
-public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
+public class CheckNbOfAppsInstalled {
 
-    private Activity activity;
+    private MainActivity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
     private StringBuilder appMatched;
@@ -33,22 +34,8 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
         appMatched = new StringBuilder();
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values){
-        super.onProgressUpdate(values);
-        // Mise à jour de la ProgressBar
-        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
-
-
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
+    public int execute() {
+        activity.addStartDate(new Date());
         PackageManager packageManager = activity.getPackageManager();
         // we retrieve the apps installed on the phone
         List<ApplicationInfo> installedApps = activity.getPackageManager().getInstalledApplications(0);
@@ -100,18 +87,13 @@ public class CheckNbOfAppsInstalled extends AsyncTask<Void,Integer,Void> {
         String commentNbOfMatches = (nbOfMatches==0)? "(Suspicious)" : ":";
 
         exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android" + commentNbOfMatches + appMatched.toString());
-        publishProgress(0);
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
         try {
             Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
+        return 1;
     }
+
 }

@@ -14,12 +14,13 @@ import android.widget.LinearLayout;
 import com.benjamincastellan.invisible.ExampleFragment;
 import com.benjamincastellan.invisible.MainActivity;
 
+import java.util.Date;
 import java.util.List;
 
 
-public class SimCard extends AsyncTask<Void, Integer, Void> {
+public class SimCard {
 
-    private Activity activity;
+    private MainActivity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
     final String TAG = "SimCard";
@@ -30,22 +31,9 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
         exampleFragment = ExampleFragment.newInstance("Check sim card information", true);
     }
 
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-    }
-
-    @Override
-    protected void onProgressUpdate(Integer... values) {
-        super.onProgressUpdate(values);
-        // Mise à jour de la ProgressBar
-        Log.d(TAG, "onProgressUpdate: " + String.valueOf(values));
-
-
-    }
-
-    @Override
-    protected Void doInBackground(Void... voids) {
+    public int execute() {
+        //set the start date of the new task
+        activity.addStartDate(new Date());
         TelephonyManager telephonyManager = (TelephonyManager) activity.getApplicationContext().getSystemService(activity.getApplicationContext().TELEPHONY_SERVICE);
 
         int simState = telephonyManager.getSimState();
@@ -103,12 +91,9 @@ public class SimCard extends AsyncTask<Void, Integer, Void> {
             //todo: analyze these imformations (if possible)
         }
 
-        return null;
-    }
-
-    @Override
-    protected void onPostExecute(Void result) {
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
+
+        return 1;
     }
 
     void checkNetworkOperatorName(TelephonyManager telephonyManager) {
