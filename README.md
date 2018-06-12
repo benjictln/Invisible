@@ -29,24 +29,24 @@ Open the repository in Android Studio and click on the icon## TODO
 
 ### **What are the different tasks ?**
 
-- Checking the internet browser history
+1. Checking the internet browser history
 Fortunately, since Android 6.0, it is impossible to access the browser history. Therefore, a malware could not use any information relative to this.
 
-- Checking the applications installed:
+2. Checking the applications installed:
  - Look for the number of applications installed
  - Look if some of the most downloaded on Android are installed on the phone.
 
-- Checking the storage of the device:
+3. Checking the storage of the device:
  - Check the free space
  - Check the used space
  - Check the total space
 
-- Checking sim card information
+4. Checking sim card information
  - Check the name of the network operator
  - Check the software version
 
-- Checking build information
+5. Checking build information
 
-- Checking for debugger:
+6. Checking for debugger:
  - check for the debuggable flag
  - check for the time spent in each task
