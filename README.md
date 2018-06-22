@@ -48,7 +48,7 @@ Fortunately, since Android 6.0, it is impossible to access the browser history. 
    - Check the software version
 
 ##### 5. Checking build information
-   - check common values of 
+   - check common values of the Build variable.
 
 ##### 6. Checking for debugger:
    - check for the debuggable flag
