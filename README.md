@@ -4,7 +4,8 @@
 
 This project is similar to the project https://github.com/LordNoteworthy/al-khaser but focused on android malware analysis.
 
-#### **How to install it ?**
+&nbsp;
+### **How to install it ?**
 
 - **On your phone/on an emulator** using the .apk file
 
@@ -20,13 +21,15 @@ Connect your phone to your computer using a usb cable.
 The developper mode should be activated on your phone (check this website to activate it: https://developer.android.com/studio/debug/dev-options)
 Open the repository in Android Studio and run it on your phone/emulator using or not the debug mode.
 
-#### **How to use it ?**
+&nbsp;
+### **How to use it ?**
 
 - Accept/deny the permissions (most tasks do not need them but the one that does won't be able to execute)
 - Push the button **Start**
 - Touch a task name to get more/less information on why the task succeeded/failed
 
-#### **What are the different tasks ?**
+&nbsp;
+### **What are the different tasks ?**
 
 ##### 1. Checking the internet browser history
 Fortunately, since Android 6.0, it is impossible to access the browser history. Therefore, a malware could not use any information relative to this.
