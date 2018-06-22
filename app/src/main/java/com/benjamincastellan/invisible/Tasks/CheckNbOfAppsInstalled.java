@@ -21,7 +21,7 @@ public class CheckNbOfAppsInstalled {
     private MainActivity activity;
     private LinearLayout ll;
     private ExampleFragment exampleFragment;
-    private StringBuilder appMatched;
+    private ArrayList<String> appMatched;
     final String TAG = "Check the Nb of Apps installed"; // todo: replace it
 
     // most downloaded according to https://en.wikipedia.org/wiki/List_of_most_downloaded_Google_Play_applications
@@ -31,7 +31,7 @@ public class CheckNbOfAppsInstalled {
         this.activity = activity;
         this.ll = ll;
         exampleFragment = ExampleFragment.newInstance("Checking the apps installed", true);
-        appMatched = new StringBuilder();
+        appMatched = new ArrayList<String>();
     }
 
     public int execute() {
@@ -68,8 +68,7 @@ public class CheckNbOfAppsInstalled {
                 if (appName.equals(mostFamousApps[j])) {
                     Log.d(TAG, "doInBackground: WE FOUND A MATCH and it is " + appName);
                     nbOfMatches++;
-                    appMatched.append("\n - ");
-                    appMatched.append(appName);
+                    appMatched.add(" - " + appName);
                 }
                 else if (++nbTestedOn == mostFamousApps.length){
                     Log.d(TAG, "doInBackground: NO MATCH FOR THIS APP " + appName);
@@ -86,7 +85,10 @@ public class CheckNbOfAppsInstalled {
         // add comment if it is suspicious
         String commentNbOfMatches = (nbOfMatches==0)? "(Suspicious)" : ":";
 
-        exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android" + commentNbOfMatches + appMatched.toString());
+        exampleFragment.addDetails("There was " + String.valueOf(nbOfMatches) + " application(s) that matched the most installed on Android" + commentNbOfMatches );
+        for (int i = 0; i < appMatched.size(); i++) {
+            exampleFragment.addDetails(appMatched.get(i),true);
+        }
         activity.getFragmentManager().beginTransaction().add(ll.getId(), exampleFragment, TAG).commit();
         try {
             Thread.sleep(1000);

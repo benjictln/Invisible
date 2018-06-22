@@ -29,7 +29,7 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        Toast.makeText(activity.getApplicationContext(), "Starting operation " + String.valueOf(++nb_operation_done), Toast.LENGTH_LONG).show();
+        Toast.makeText(activity.getApplicationContext(), "Starting the tasks ", Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -52,6 +52,6 @@ public class BackgroundTask extends AsyncTask<Void, Integer, Void>
 
     @Override
     protected void onPostExecute(Void result) {
-        Toast.makeText(activity.getApplicationContext(), "Operation finished", Toast.LENGTH_LONG).show();
+        Toast.makeText(activity.getApplicationContext(), "Tasks all finished", Toast.LENGTH_LONG).show();
     }
 }
