@@ -31,25 +31,25 @@ Open the repository in Android Studio and run it on your phone/emulator using or
 &nbsp;
 ### **What are the different tasks ?**
 
-##### 1. Checking the internet browser history
+##### 1. Checking the internet browser history (CheckInternetHistory.java)
 Fortunately, since Android 6.0, it is impossible to access the browser history. Therefore, a malware could not use any information relative to this.
 
-##### 2. Checking the applications installed:
+##### 2. Checking the applications installed (CheckNbOfAppsInstalled.java)
    - Look for the number of applications installed
    - Look if some of the most downloaded on Android are installed on the phone.
 
-##### 3. Checking the storage of the device:
+##### 3. Checking the storage of the device (StorageInformation.java)
    - Check the free space
    - Check the used space
    - Check the total space
 
-##### 4. Checking sim card information
+##### 4. Checking sim card information (SimCard.java)
    - Check the name of the network operator
    - Check the software version
 
-##### 5. Checking build information
+##### 5. Checking build information (BuildInformation.java)
    - check common values of the Build variable.
 
-##### 6. Checking for debugger:
+##### 6. Checking for debugger (DebuggerUsed.java)
    - check for the debuggable flag
    - check for the time spent in each task and compare it to reasonable values
